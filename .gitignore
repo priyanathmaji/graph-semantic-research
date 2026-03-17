@@ -1,0 +1,6 @@
+*.vscode
+*_pycache_
+*.pyc
+*.pt
+*.npy
+*.json
