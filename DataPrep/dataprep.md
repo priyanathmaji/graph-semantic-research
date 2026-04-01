@@ -39,3 +39,7 @@ reviews: total: 2  downloaded: 2  avg rating: 5
 # So, on July 28, 2000, customer A2JW67OY8U6HHK gave a 5-star rating. Out of 10 votes, 9 found the review helpful.
 2000-7-28  cutomer: A2JW67OY8U6HHK  rating: 5  votes:  10  helpful:   9
 2003-12-14  cutomer: A2VE83MZF98ITY  rating: 5  votes:   6  helpful:   5
+
+
+Embedding Transformers
+SBERT - pip install -U sentence-transformers
