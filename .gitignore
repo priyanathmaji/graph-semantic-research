@@ -5,3 +5,4 @@
 *.npy
 *.json
 *ind*
+node_features.csv
