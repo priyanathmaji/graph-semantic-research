@@ -32,7 +32,7 @@ class GAResearchDataset(InMemoryDataset):
                  pre_transform: Optional[Callable] = None,  
                  pre_filter: Optional[Callable] = None) -> None:
         self.name = name.lower()
-        assert self.name in ['cora', 'amazon','amazon-fasttext','roman-fasttext','roman-custom-transformer']
+        assert self.name in ['cora', 'amazon','amazon-fasttext','roman-fasttext','roman-transformer','roman-custom-transformer']
         super().__init__(root, transform, pre_transform, pre_filter)
         self.load(self.processed_paths[0])
     
