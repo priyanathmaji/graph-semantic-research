@@ -32,7 +32,16 @@ class ExperimentTracker:
 
     def save_results(self, model_name, test_f1, test_acc, params=None):
         """Pass the model name when saving the final test results."""
-        file_id = f"{self.dataset_name}_{self.node_feature_type}_{model_name}".lower()
+        file_id = f"{self.dataset_name}_{self.node_feature_type}_{model_name}".lower().replace(" ", "_")
+        
+        clean_params = {}
+        if params:
+            for k, v in params.items():
+                # Convert non-serializable objects (like device) to strings
+                if hasattr(v, '__dict__') or "device" in str(type(v)).lower():
+                    clean_params[k] = str(v)
+                else:
+                    clean_params[k] = v
         
         if model_name in self.histories:
             hist_df = pd.DataFrame(self.histories[model_name])
@@ -44,7 +53,7 @@ class ExperimentTracker:
             "model": model_name,
             "test_f1": round(test_f1, 4),
             "test_acc": round(test_acc, 4),
-            "params": params or {}
+            "params": clean_params or {}
         }
         
         master_path = os.path.join(self.save_dir, 'master_leaderboard.json')
