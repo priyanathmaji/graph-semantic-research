@@ -15,16 +15,19 @@ class ExperimentTracker:
             os.makedirs(self.save_dir)
 
 
-    def log_epoch(self, model_name, epoch, train_loss, val_f1, val_acc):
+    def log_epoch(self, model_name, epoch, loss, val_f1, val_acc):
         """Pass the model name (e.g., 'gcn2') every time you log an epoch."""
+
+        l_val = loss.item() if hasattr(loss, 'item') else loss
+
         if model_name not in self.histories:
             self.histories[model_name] = []
             
         self.histories[model_name].append({
-            'epoch': epoch,
-            'train_loss': train_loss,
-            'val_f1': val_f1,
-            'val_acc': val_acc
+        'epoch': epoch,
+        'train_loss': l_val,
+        'val_f1': val_f1,
+        'val_acc': val_acc
         })
 
     def save_results(self, model_name, test_f1, test_acc, params=None):
