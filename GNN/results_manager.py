@@ -1,6 +1,8 @@
 import json
 import os
 import pandas as pd
+import torch
+from datetime import datetime
 
 class ExperimentTracker:
 
@@ -33,7 +35,8 @@ class ExperimentTracker:
     def save_results(self, model_name, test_f1, test_acc, params=None):
         """Pass the model name when saving the final test results."""
         file_id = f"{self.dataset_name}_{self.node_feature_type}_{model_name}".lower().replace(" ", "_")
-        
+        gpu_name = torch.cuda.get_device_name(0) if torch.cuda.is_available() else "CPU"
+        current_date = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
         clean_params = {}
         if params:
             for k, v in params.items():
@@ -48,9 +51,11 @@ class ExperimentTracker:
             hist_df.to_csv(os.path.join(self.save_dir, f"{file_id}_history.csv"), index=False)
 
         summary = {
+            "date": current_date,
             "dataset": self.dataset_name,
             "features": self.node_feature_type,
             "model": model_name,
+            "gpu": gpu_name,
             "test_f1": round(test_f1, 4),
             "test_acc": round(test_acc, 4),
             "params": clean_params or {}
